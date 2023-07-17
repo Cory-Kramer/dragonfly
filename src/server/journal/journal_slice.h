@@ -4,12 +4,22 @@
 
 #pragma once
 
-#include <optional>
-#include <string_view>
+#include <stddef.h>
+#include <stdint.h>
 
+#include <optional>
+#include <shared_mutex>
+#include <string_view>
+#include <system_error>
+#include <utility>
+#include <vector>
+
+#include "absl/base/thread_annotations.h"
 #include "base/ring_buffer.h"
+#include "core/fibers.h"
 #include "server/common.h"
 #include "server/journal/types.h"
+#include "util/fibers/synchronization.h"
 
 namespace dfly {
 namespace journal {

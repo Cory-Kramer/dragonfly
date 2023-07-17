@@ -4,29 +4,22 @@
 
 #include "server/journal/journal_slice.h"
 
-#include <absl/container/inlined_vector.h>
-#include <absl/strings/str_cat.h>
-#include <fcntl.h>
+#include <bits/chrono.h>
 
-#include <filesystem>
+#include <algorithm>
+#include <cstdint>
+#include <functional>
+#include <mutex>
+#include <ostream>
+#include <string>
 
-#include "base/logging.h"
+#include "glog/logging.h"
+#include "util/fibers/detail/wait_queue.h"
 
 namespace dfly {
 namespace journal {
 using namespace std;
 using namespace util;
-namespace fs = std::filesystem;
-
-namespace {
-
-/*
-string ShardName(std::string_view base, unsigned index) {
-  return absl::StrCat(base, "-", absl::Dec(index, absl::kZeroPad4), ".log");
-}
-*/
-
-}  // namespace
 
 #define CHECK_EC(x)                                                                 \
   do {                                                                              \
