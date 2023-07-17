@@ -63,6 +63,14 @@ jobs:
           if [ "${{matrix.compiler.c}}" = "clang" ]; then
             apk update && apk add clang
           fi
+      - name: Install iwyu dependency
+        run: |
+          if [ "${{matrix.container}}" = "alpine-dev:latest" ]; then
+            apk update && apk add include-what-you-use
+          fi
+          if [ "${{matrix.container}}" = "ubuntu-dev:20" ]; then
+            apt-get update && apt-get install -y iwyu
+          fi
       - name: Cache build deps
         id: cache-deps
         uses: actions/cache@v3
